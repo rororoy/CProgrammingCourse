@@ -1,0 +1,18 @@
+tHIS IS A TEST FILE according to aLL the ruLes of The question...
+
+this is a test to see if the first letter of the sentence is capitalized.   777  and this is another test attempt.
+
+this is a quote test "this should be.... capitalized!" this shouldn't be.
+
+this is a test for rule three: to show that for everything else! we print in lower case.
+
+this i23s a34 t4e345st t34o 1s34e5e i3432f. 324i23t pr45i6nts witho46u45t d56igi45ts,
+ y34ou s23ho54uld b23e 6ab3l34e 564t7o re65a3d t4h563i7s s7en6ten54c3e w5i6t7h eA34s6e.
+ this also shows that a sentence can
+          span over a few
+
+      lines. and this is a new sentence. ...... ... . ... these are also empty sentences.
+
+and of course I've shown already that chars that aren't letters or number are printed without change.
+
+the final test should print the following in lower case: "because the quote didn't close
