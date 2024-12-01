@@ -1,0 +1,20 @@
+Enter your input (ctrl-D to finish typing):
+This is a test file according to all the rules of the question...
+
+This is a test to see if the first letter of the sentence is capitalized.     And this is another test attempt.
+
+This is a quote test "THIS SHOULD BE.... CAPITALIZED!" this shouldn't be.
+
+This is a test for rule three: to show that for everything else! we print in lower case.
+
+This is a test to see if. It prints without digits,
+ you should be able to read this sentence with ease.
+ This also shows that a sentence can
+          span over a few
+
+      lines. And this is a new sentence. ...... ... . ... These are also empty sentences.
+
+And of course i've shown already that chars that aren't letters or number are printed without change.
+
+The final test should print the following in lower case: "because the quote didn't close
+¿

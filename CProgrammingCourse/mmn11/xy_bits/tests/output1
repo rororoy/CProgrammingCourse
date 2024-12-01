@@ -1,0 +1,5 @@
+Enter your two numbers X and Y:
+You've entered X = 11111111111111111110111111111111   (=4294963199)
+You've entered Y = 00000000000000000000000001000000   (=64)
+After turning on the 13th bit, X is now: 11111111111111111111111111111111   (=4294967295)
+For Y, is the 7th bit on?: YES

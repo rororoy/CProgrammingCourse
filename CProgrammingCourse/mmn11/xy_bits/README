@@ -1,0 +1,8 @@
+In this directory youll find a test folder with input(1/2) files and output files(1/2)
+
+To run the program easily:
+./xy_bits < ./tests/input1
+ >> Output is stored in output1 <<
+
+./xy_bits < ./tests/input2
+ >> Output is stored in output2 <<

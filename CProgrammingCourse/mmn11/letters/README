@@ -1,0 +1,8 @@
+In this directory youll find a test folder with input(1/2) files and output files(1/2)
+
+To run the program easily:
+./letters < ./tests/input1
+ >> Output is stored in output1 <<
+
+./letters < ./tests/input2
+ >> Output is stored in output2 <<
