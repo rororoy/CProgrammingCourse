@@ -1,0 +1,14 @@
+In this directory you'll find the main executable (prog) and tests in the test directory
+Test 1 (i1) is the same matrix from the question for N = 11, to run easily:
+./prog < ./tests/i1
+>> Output is stored in tests/o1 <<
+
+Test 2 (i2) is a 6x6 matrix, does some more path checks for a certain graph
+Note: i2 shows it can handle faulty input buy clearing the buffer and terminating
+at EOF correctly instead of only at -1 -1.
+To run it:
+./prog < ./tests/i2
+>> Output is stored in tests/o2 <<
+
+You can run the program easily without any tester file:
+./prog
