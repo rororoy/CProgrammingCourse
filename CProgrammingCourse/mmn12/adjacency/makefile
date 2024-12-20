@@ -1,5 +1,5 @@
-prog: adjacency.o utils.o
-	gcc -ansi -Wall -pedantic utils.o adjacency.o -o prog
+adjacency: adjacency.o utils.o
+	gcc -ansi -Wall -pedantic utils.o adjacency.o -o adjacency
 
 adjacency.o: adjacency.c data.h
 	gcc -ansi -Wall -pedantic -c adjacency.c

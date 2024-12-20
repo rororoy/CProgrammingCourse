@@ -1,4 +1,4 @@
-#define N 6
+#define N 11
 typedef enum {FALSE, TRUE} bool;
 typedef bool adjmat[N][N];
 
