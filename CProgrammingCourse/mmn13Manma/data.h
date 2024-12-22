@@ -2,7 +2,7 @@
 #define BSIZE 100
 #define CSIZE 200
 
-int seriesA[ASIZE], seriesB[BSIZE], seriesC[CSIZE], seriesD[10];
+int seriesA[ASIZE], seriesB[BSIZE], seriesC[CSIZE];
 
 typedef struct {
   int comparisons;

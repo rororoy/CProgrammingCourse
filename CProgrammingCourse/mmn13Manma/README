@@ -1,0 +1,4 @@
+An executable already compiled can be found here called mmn13
+The program uses a header file also present here called data.h
+Finally a makefile is also located in this dir and compiled the program with the
+gcc compiler
