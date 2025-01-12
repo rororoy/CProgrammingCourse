@@ -17,6 +17,11 @@ extern complex A, B, C, D, E, F;
 /* Error code - default is 0 which is OK - used to pass back errors from functions */
 extern int error;
 
+typedef struct{
+  int error_code;
+  char error_msg[50];
+} errors_struct;
+
 /* Define a database of possible varaibles user can use */
 typedef struct{
   char name;
@@ -67,5 +72,6 @@ typedef struct{
 
 extern cmpnums_struct cmpnums[];
 extern cmd_struct cmd[];
+extern errors_struct errors[];
 
 #endif /* COMPLEX_H */

@@ -5,10 +5,11 @@
 #include "complex.h"
 
 /*
-TODO rewrite the tokenizer to return only ints no printing
-TODO move the defenition of the tokenized object to the main func
-TODO think how to pass back the error code
-TODO switch buffer to malloc
+TODO read_comp A,3.5 executes normally should return missing param
+TODO print_comp and a bunch of spaces  and then A doesnt work - possibly some buffer filled
+TODO figure out when and why i should clear the buffer
+TODO handle consecutive comments
+TODO handle EOF in the middle of input - should stop and error
 */
 
 /* Define the global complex variables */
@@ -22,6 +23,8 @@ complex F = {0.0, 0.0};
 int main(){
   char command[30];
   int i;
+  char ch; /* Temp char */
+  int result;
 
   printf("Initialized complex numbers A-F to default values of 0+0i\n");
   printf("Please enter a valid command out of possible commands:\n");
@@ -31,7 +34,8 @@ int main(){
   printf("\n\n");
 
   for(;;){
-    if(scanf("%s", command) == 1){
+    printf("> ");
+    if((result = scanf("%s", command)) == 1){
       for(i=0; cmd[i].func != NULL; i++){
         if(strcmp(command, cmd[i].name)==0){
           /* If found match for the command */
@@ -40,19 +44,26 @@ int main(){
       }
 
       if(cmd[i].func == NULL){
-        printf("\nUndefined command name\n");
+        error = 2; /* Undefined command */
+        while((ch=getchar()) != '\n' && ch != EOF){/*Clear buffer chars*/}
       }else{
-        (*(cmd[i].func))();
-        /* Check for passed error from the functions */
-        if(error != 0){
-          printf("\nERROR %d\n", error);
-        }
-        /*printf("\nComplex A: %2f+i%2f\n", A.real, A.img);*/
+        (*(cmd[i].func))(); /* Call and execute correct function */
       }
+
+      if(error != 0){
+        /* printf("\nERROR %d", error); */
+        printf("\n%s\n", errors[error].error_msg);
+      }
+
+      if(error == 9 || error == 10){
+        break;
+      }
+    }else if(result == EOF){
+      error = 10; /* Program terminated incorrectly error */
+      printf("\n%s\n", errors[error].error_msg);
+      break;
     }
   }
-
-
 
   return 0;
 }
