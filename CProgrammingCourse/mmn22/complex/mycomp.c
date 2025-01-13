@@ -5,10 +5,8 @@
 #include "complex.h"
 
 /*
-TODO read_comp A,3.5 executes normally should return missing param
 TODO print_comp and a bunch of spaces  and then A doesnt work - possibly some buffer filled
-TODO figure out when and why i should clear the buffer
-TODO handle consecutive comments
+TODO handle consecutive commas
 TODO handle EOF in the middle of input - should stop and error
 */
 
