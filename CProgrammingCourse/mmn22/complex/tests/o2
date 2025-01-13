@@ -1,0 +1,24 @@
+Initialized complex numbers A-F to default values of 0+0i
+Please enter a valid command out of possible commands:
+read_comp print_comp add_comp sub_comp mult_comp_real mult_comp_img mult_comp_comp abs_comp stop 
+
+> 0.00 + (0.00)i
+> 0.00 + (0.00)i
+> 0.00 + (0.00)i
+> > 45.10 - (23.75)i
+> > 54.20 + (3.56)i
+> > 0.00 - (1.00)i
+> 99.30 - (20.19)i
+> -99.30 + (19.19)i
+> 0.00 + (0.00)i
+> -99.30 + (20.19)i
+> 249.24 - (50.68)i
+> -129.94 - (638.44)i
+> 0.00 + (-0.00)i
+> -0.00 + (0.00)i
+> 0.00
+> 0.00
+> 101.14
+> 0.00
+> 
+Program terminated

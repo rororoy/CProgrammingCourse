@@ -195,7 +195,12 @@ int tokenize_input(tokenized *extracted_tokens){
 
     if(cmpnums[j].name == '#'){
       if(var_name == ','){return 8;} /* Illegal comma */
-      if(func_id == 1 || func_id == 7){return 4;}
+
+      skip = strspn(buffer, " \t\r\n"); /* Skip whitespace and get to expected double */
+      buffer += skip;
+
+      if(buffer[0] == '\0'){return 4;}
+
       return 1; /* Undefined complex var */
     }else{
       extracted_tokens->target = cmpnums[j].cmplx;
@@ -230,6 +235,8 @@ int tokenize_input(tokenized *extracted_tokens){
 
     skip = strspn(buffer, " \t\r\n"); /* Skip whitespace and get to expected next param */
     buffer += skip;
+
+    if(buffer[0] == ','){return 6;} /* Multiple consecutive commas */
 
     if(buffer[0] == EOF){return 10;} /* Detected EOF in the middle - output error #10*/
 
@@ -280,7 +287,6 @@ int tokenize_input(tokenized *extracted_tokens){
       /* Check if no number was provided to be parsed at all or if some of it wasn't parsed due to an issue in it */
       if(endptr == partial || *endptr != '\0'){return 3;} /* Invalid param - not number */
 
-      /* TODO check this */
       if(!isdigit(buffer[j]) && buffer[j] != '\0' && (buffer[j]) != ',' && !isspace((unsigned char)buffer[j])){
         return 3; /* Invalid param - not number */
       }
@@ -325,6 +331,10 @@ int tokenize_input(tokenized *extracted_tokens){
     i = strtod(partial, &endptr);
 
     /* If no number was parsed or if didn't finish parsing due to issue*/
+    if(!isdigit(buffer[j]) && buffer[j] != '\0' && (buffer[j]) != ',' && !isspace((unsigned char)buffer[j])){
+      return 3; /* Invalid param - not number */
+    }
+
     if(endptr == partial || *endptr != '\0'){return 3;}  /* Invalid param - not number */
 
     buffer += j;

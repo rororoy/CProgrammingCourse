@@ -1,0 +1,38 @@
+Initialized complex numbers A-F to default values of 0+0i
+Please enter a valid command out of possible commands:
+read_comp print_comp add_comp sub_comp mult_comp_real mult_comp_img mult_comp_comp abs_comp stop 
+
+> 
+Undefined complex variable
+> 
+Undefined complex variable
+> 
+Undefined command name
+> 
+Undefined command name
+> 
+Invalid parameter - not a number
+> 
+Missing parameter
+> 
+Extraneous text after end of command
+> 
+Missing comma
+> 
+Extraneous text after end of command
+> 
+Multiple consecutive commas
+> 
+Missing comma
+> 
+Illegal comma
+> 
+Invalid parameter - not a number
+> 
+Missing parameter
+> 
+Undefined complex variable
+> 
+Extraneous text after end of command
+> 
+Program terminated incorrectly - use stop

@@ -29,12 +29,6 @@ typedef struct{
 } cmpnums_struct;
 
 typedef struct{
-  char var_name;
-  double real_part;
-  double img_part;
-} read_params;
-
-typedef struct{
   complex *target;
   int func_id;
   double return_param1;

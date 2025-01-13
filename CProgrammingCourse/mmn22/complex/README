@@ -1,0 +1,13 @@
+In this directory you'll find the main executable (mycomp) and tests in the test directory
+Test 1 (i1) is the same test from the question from the part where all types of errors are mentioned:
+To run it:
+./mycomp < ./tests/i1
+>> Output is stored in tests/o1 <<
+
+Test 2 (i2) is the test file that sits at the end of the question
+To run it:
+./mycomp < ./tests/i2
+>> Output is stored in tests/o2 <<
+
+You can run the program easily without any tester file:
+./mycomp
