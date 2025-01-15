@@ -5,6 +5,8 @@
 #include <ctype.h>
 #include <stdlib.h>
 
+#define INPUT_BUFFER_SIZE 100
+
 /* Define the complex number type with real=x, img=y to represent n = x+iy */
 typedef struct{
   double real;
@@ -13,9 +15,6 @@ typedef struct{
 
 /* Define our complex number vars A-F */
 extern complex A, B, C, D, E, F;
-
-/* Error code - default is 0 which is OK - used to pass back errors from functions */
-extern int error;
 
 typedef struct{
   int error_code;
@@ -56,7 +55,7 @@ void mult_comp_comp(void);
 
 void abs_comp(void);
 
-void stop();
+int stop();
 
 /* Define a command database with pointers to functions for each valid command */
 typedef struct{

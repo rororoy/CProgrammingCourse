@@ -15,24 +15,34 @@
     Uses utils.c program file for its helper functions.
 
   * Algorithm:
-    1. Prints an example matrix with null values and asks for input from user.
-    2. Loops for each cell in the matrix and asks for an input of 1 or 0 to fill.
-    3. If detected EOF - terminates program, handles faulty input to allow only 1 or 0.
-    4. If detected faulty input, clears the buffer using clearInputBuffer().
-    5. Prints the filled up matrix neetly.
-    6. Main part: Asks for two nodes, loops untill EOF or until getting -1 -1.
-    7. For each, check if path exists using path(), print if path was found.
+    1. First reads from the user the command and runs through the db of commands
+    to see if its a valid command.
+    2. If invalid - output error and continue to read another command
+       If valid - call the function that has the same name as the command they used
+       (through the cmd db that holds pointers to all functions).
+    3. Inside one of the functions: define the struct tokanize and pass null defualt values and a function id,
+     then call tokanize_input.
+    4. tokanize_input will perform multiple tests based on the function id and
+    check if the rest of the input is valid (the part after the command itself),
+    will return values in fields it extracted from the whole full command of the user via the tokanize var.
+    5. tokanize_input will return the specific error it encountered (0 if OK).
+    6. given all that tokanize_input has extracted and based on the error the function
+    of the command will perform the specific task it was asked and either print a
+    result with a print_comp function or end.
+    7. Back at the main function - print the error and either terminate incase of a stop or loop and recieve more input.
 
   * Input:
-    The adjacency matrix values (1 or 0) representing each state of each node in the matrix.
+    Commands in the format <command_name> <vars A-F>,<param 1>,<param 2>
+    example: read_comp A, 4.5, -2.3         print_comp A          sub_comp A,B
+
 
   * Output:
-    1. User input/output prompts.
-    2. Printing of the matrix.
-    3. Whether a path was found between to given nodes u and v.
+    Either and error if encountered problem in input
+    or printing the result or value of a complex varaible after an operation.
 
   * Notes:
     Eample input tests can be found in the same directory as this program. See README.
+    Some handling of errors may not be as asked in the question because in the forum it was said to do otherwise...
 
 *******************************************************************************/
 
