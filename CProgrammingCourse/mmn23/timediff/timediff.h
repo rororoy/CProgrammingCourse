@@ -1,3 +1,5 @@
+#ifndef TIMEDIFF_H
+#define TIMEDIFF_H
 #include <stdio.h>
 #include <string.h>
 #include <ctype.h>
@@ -5,6 +7,7 @@
 
 #define MAX_LINE_LENGTH 1024 /* Maximum line length buffer to read at a time */
 #define SECONDS_IN_DAY 86400
+#define SECONDS_IN_HOUR 3600
 #define DAYS_IN_YEAR 365
 
 typedef struct{
@@ -12,8 +15,7 @@ typedef struct{
   int hour;
 } time;
 
-int days_per_month[] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
-
+extern int days_per_month[];
 /* Function to compare two time objects and return the bigger of the two */
 time *compare_time(time *t1, time *t2);
 
@@ -21,6 +23,12 @@ time *compare_time(time *t1, time *t2);
 void print_time(time *t);
 
 /* Given two time objects calculate the difference between them, return amount of seconds between */
-int time_diff(time *t1, time *t2);
+long long time_diff(time *t1, time *t2);
 
 int extract_time(int *arr, char *line);
+
+int days_to_0000(time *t);
+
+int seconds_to_0000(time *t);
+
+#endif /* TIMEDIFF_H */

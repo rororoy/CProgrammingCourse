@@ -27,7 +27,7 @@ int main(int argc, char *argv[]) {
   while (fgets(line, sizeof(line), file) != NULL) {
     int return_args[4] = {0,0,0,0};
     int input_error;
-    int seconds;
+    long long seconds;
     time t1, t2;
     input_error = extract_time(return_args, line);
 
