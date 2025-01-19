@@ -11,24 +11,40 @@
 #define DAYS_IN_YEAR 365
 
 typedef struct{
-  int date;
+  int day;
+  int month;
+  int year;
+} dates;
+
+typedef struct{
   int hour;
+  int minute;
+  int second;
+} hours;
+
+
+typedef struct{
+  dates date;
+  hours hour;
 } time;
 
 extern int days_per_month[];
 /* Function to compare two time objects and return the bigger of the two */
-time *compare_time(time *t1, time *t2);
+int compare_time(time *t1, time *t2);
+
+/*  */
+void build_time(int *arr ,time *t, int begin);
 
 /* Given a time object print it in a format */
 void print_time(time *t);
 
 /* Given two time objects calculate the difference between them, return amount of seconds between */
-long long time_diff(time *t1, time *t2);
+long time_diff(time *t1, time *t2);
 
 int extract_time(int *arr, char *line);
 
-int days_to_0000(time *t);
+long days_to_0000(time *t);
 
-int seconds_to_0000(time *t);
+long seconds_to_0000(time *t);
 
 #endif /* TIMEDIFF_H */

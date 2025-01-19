@@ -7,93 +7,144 @@
 int days_per_month[] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
 
 int extract_time(int *arr, char *line){
-  int dig_count = 0;
-  int str_len;
   int i = 0;
   char *token = strtok(line, " "); /* Get the first token */
-
   while (token != NULL && i < 10) {
-    if(dig_count == 5){
-      dig_count++;
-    }
-
-    /* If looking at the day or month make sure it is saved as two digits */
-    if(dig_count == 0 || dig_count == 1 || dig_count == 6 || dig_count == 7){
-      str_len = 2;
-    }else{
-      str_len = dig_count == 10 ? strlen(token) - 1 : strlen(token);
-    }
-
-    if(atoi(token) < 0 && (dig_count == 8 || dig_count == 2)){ /* For negative years */
-      arr[dig_count/3] = arr[dig_count/3] * (pow(10,str_len-1)) + (abs(atoi(token))); /* Incase of a negative year add an offest of 9000 to it */
-      arr[dig_count/3] *= -1;
-    }else{
-      arr[dig_count/3] = arr[dig_count/3] * (pow(10,str_len)) + atoi(token); /* Convert to integer and store */
-    }
+    arr[i] = atoi(token);
     token = strtok(NULL, " "); /* Get the next token */
-    dig_count++;
+    i++;
   }
-  arr[1] *= 100;
-  arr[3] *= 100;
+
+  if(i != 10){ /* If stopped reading mid iteration */
+    return 1;
+  }
   return 0;
 }
 
-
-long long time_diff(time *t1, time *t2){
-  int sooner_time;
-  long long seconds;
-  int total_days_soon, total_days_late; /* Total days since 0000 */
-  int seconds_soon, seconds_late;
-
-  if(t1->date == t2->date){
-    sooner_time = t1->hour > t2->hour ? 1 : 0;
-  }else{
-    sooner_time = t1->date > t2->date ? 1 : 0;
-  }
-
-  total_days_late = sooner_time ? days_to_0000(t1) : days_to_0000(t2);
-  total_days_soon = !sooner_time ? days_to_0000(t1) : days_to_0000(t2);
-
-  seconds_soon = sooner_time ? seconds_to_0000(t1) : seconds_to_0000(t2);
-  seconds_late = !sooner_time ? seconds_to_0000(t1) : seconds_to_0000(t2);
-
-  seconds = (total_days_late-total_days_soon) * SECONDS_IN_DAY;
-  seconds += seconds_late - seconds_soon;
-
-  printf("SOONER:%d\n", sooner_time);
-  printf("TIME DIFF %d - %d: %d\n", total_days_late, total_days_soon, total_days_late-total_days_soon);
-  printf("SECONDS DIFF %d\n\n", seconds);
-
-
-  return seconds;
+void build_time(int *arr ,time *t, int begin){
+  int *ptr = arr + begin;
+  t->date.day = *ptr++;
+  t->date.month = *ptr++;
+  t->date.year = *ptr++;
+  t->hour.hour = *ptr++;
+  t->hour.minute = *ptr++;
+  t->hour.second = 0;
 }
 
-int days_to_0000(time *t){
-  int total_days;
-  int month, year;
-
-  total_days = abs((t->date / 1000000) % 100);
-  month = (t->date / 10000) % 100;
-  for(month=abs(month)-1; month > 0; month--){
-    total_days += days_per_month[month-1];
-  }
-
-  year = t->date % 10000;
-  total_days += abs(year) * DAYS_IN_YEAR;
-  if(year < 0){ /* For dates before the year 0000 save the days as negative */
-    total_days *= -1;
-  }
-  printf("FOR DATE: %d GOT DAYS: %d\n", t->date, total_days);
-  return total_days;
+void print_time(time *t){
+  printf("%d.%d.%d  ", t->date.day, t->date.month, t->date.year);
+  printf("%d:%d:%d\n", t->hour.hour, t->hour.minute, t->hour.second);
 }
 
-int seconds_to_0000(time *t){
-  int total_seconds;
+long time_diff(time *t1, time *t2) {
+    int sooner = compare_time(t1, t2);
+    long days_late, days_soon;
+    long seconds_late, seconds_soon;
+    long total_seconds;
 
-  total_seconds = t->hour % 100; /* Extract seconds */
-  total_seconds += ((t->hour / 100) % 100) * 60; /* Minutes to 00 * 60 sec */
-  total_seconds += t->hour / 10000; /* Hours to 00 * SEC IN HOUR */
+    if (sooner) {
+        days_late = days_to_0000(t1);
+        days_soon = days_to_0000(t2);
+        seconds_late = seconds_to_0000(t1);
+        seconds_soon = seconds_to_0000(t2);
+    } else {
+        days_late = days_to_0000(t2);
+        days_soon = days_to_0000(t1);
+        seconds_late = seconds_to_0000(t2);
+        seconds_soon = seconds_to_0000(t1);
+    }
+
+    total_seconds = (days_late - days_soon) * SECONDS_IN_DAY;
+    total_seconds += (seconds_late - seconds_soon);
+
+    printf("DIFF:%ld\n", total_seconds);
+
+    return total_seconds;
+}
+
+/*
+  Given two time objects return which is sooner of the two
+  Returns 0 if t1 is sooner or 1 if t2 is sooner (0 if equal)
+*/
+int compare_time(time *t1, time *t2){
+  if (t1->date.year < t2->date.year) {
+        return 0;
+    } else if (t1->date.year > t2->date.year) {
+        return 1;
+    }
+
+    if (t1->date.month < t2->date.month) {
+        return 0;
+    } else if (t1->date.month > t2->date.month) {
+        return 1;
+    }
+
+    if (t1->date.day < t2->date.day) {
+        return 0;
+    } else if (t1->date.day > t2->date.day) {
+        return 1;
+    }
+
+    if (t1->hour.hour < t2->hour.hour) {
+        return 0;
+    } else if (t1->hour.hour > t2->hour.hour) {
+        return 1;
+    }
+
+    if (t1->hour.minute < t2->hour.minute) {
+        return 0;
+    } else if (t1->hour.minute > t2->hour.minute) {
+        return 1;
+    }
+
+    if (t1->hour.second < t2->hour.second) {
+        return 0;
+    } else if (t1->hour.second > t2->hour.second) {
+        return 1;
+    }
+
+    return 0; /* Equal */
+}
+
+
+/*
+  Given a time object calculate how many seconds passed from the date to 00:00
+  Return the amount of seconds (long)
+*/
+long seconds_to_0000(time *t){
+  long total_seconds;
+
+  total_seconds = t->hour.second; /* Extract seconds */
+  total_seconds += t->hour.minute * 60; /* Minutes to 00 * 60 sec */
+  total_seconds += t->hour.hour * SECONDS_IN_HOUR; /* Hours to 00 * SEC IN HOUR */
 
   return total_seconds;
+}
 
+
+/*
+  Given a time object calculate how many days passed from the date to 00/00/0000
+  Return the amount of days (int)
+*/
+long days_to_0000(time *t) {
+    long total_days = 0;
+    int month;
+
+    /* Calculate days for the years */
+    /* For BC years, subtract since they are before the epoch */
+    if (t->date.year < 0) {
+        total_days -= (abs(t->date.year)) * DAYS_IN_YEAR;
+    } else {
+        total_days += (t->date.year) * DAYS_IN_YEAR;
+    }
+
+    /* Calculate days for the months */
+    for (month = 1; month < t->date.month; month++) {
+        total_days += days_per_month[month - 1];
+    }
+
+    /* Add days */
+    total_days += (t->date.day - 1); /* Subtract 1 since day starts from 1 */
+
+    return total_days;
 }

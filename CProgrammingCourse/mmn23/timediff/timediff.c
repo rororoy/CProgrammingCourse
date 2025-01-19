@@ -25,22 +25,24 @@ int main(int argc, char *argv[]) {
   }
 
   while (fgets(line, sizeof(line), file) != NULL) {
-    int return_args[4] = {0,0,0,0};
+    int return_args[10];
     int input_error;
-    long long seconds;
+    long seconds;
     time t1, t2;
     input_error = extract_time(return_args, line);
 
     if(input_error){break;}
-
     printf("GOT ERROR:%d\n", input_error);
-    printf("GOT NUMBER: %d, %d, %d, %d\n", return_args[0], return_args[1], return_args[2], return_args[3]);
-    t1.date = return_args[0];
-    t1.hour = return_args[1];
-    t2.date = return_args[2];
-    t2.hour = return_args[3];
+
+    build_time(return_args, &t1, 0);
+    build_time(return_args, &t2, 5);
+
+    print_time(&t1);
+    print_time(&t2);
+
 
     seconds = time_diff(&t1, &t2);
+    printf("GOT DIFF: %ld", seconds);
   }
 
     /* Check for reading errors */
