@@ -54,10 +54,12 @@ long time_diff(time *t1, time *t2) {
         seconds_soon = seconds_to_0000(t1);
     }
 
+    printf("SECONDS DIFF (Late - Soon): %ld\n", (seconds_late - seconds_soon));
     total_seconds = (days_late - days_soon) * SECONDS_IN_DAY;
+    printf("DAYS DIFF (Late - Soon): %ld\n", (days_late - days_soon));
     total_seconds += (seconds_late - seconds_soon);
 
-    printf("DIFF:%ld\n", total_seconds);
+    printf("TOTAL DIFF IN SECONDS: %ld\n", (days_late - days_soon) * SECONDS_IN_DAY + (seconds_late - seconds_soon));
 
     return total_seconds;
 }
@@ -130,21 +132,31 @@ long days_to_0000(time *t) {
     long total_days = 0;
     int month;
 
-    /* Calculate days for the years */
-    /* For BC years, subtract since they are before the epoch */
-    if (t->date.year < 0) {
-        total_days -= (abs(t->date.year)) * DAYS_IN_YEAR;
+    if (t->date.year < 0){
+        /* BC date */
+        /* Subtract (abs(year)) * DAYS_IN_YEAR */
+        total_days -= abs(t->date.year) * DAYS_IN_YEAR;
+
+        /* Subtract days remaining in the current month after the given day */
+        total_days -= (days_per_month[t->date.month - 1] - t->date.day);
+
+        /* Subtract days for the months after the current month */
+        for (month = t->date.month + 1; month <= 12; month++) {
+            total_days -= days_per_month[month - 1];
+        }
     } else {
-        total_days += (t->date.year) * DAYS_IN_YEAR;
-    }
+        /* AD date */
+        /* Add (year - 1) * DAYS_IN_YEAR */
+        total_days += (t->date.year - 1) * DAYS_IN_YEAR;
 
-    /* Calculate days for the months */
-    for (month = 1; month < t->date.month; month++) {
-        total_days += days_per_month[month - 1];
-    }
+        /* Add days for the months before the current month */
+        for (month = 1; month < t->date.month; month++) {
+            total_days += days_per_month[month - 1];
+        }
 
-    /* Add days */
-    total_days += (t->date.day - 1); /* Subtract 1 since day starts from 1 */
+        /* Add days elapsed in the current month */
+        total_days += (t->date.day - 1);
+    }
 
     return total_days;
 }

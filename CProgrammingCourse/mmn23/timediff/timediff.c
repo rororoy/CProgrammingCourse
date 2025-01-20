@@ -42,7 +42,7 @@ int main(int argc, char *argv[]) {
 
 
     seconds = time_diff(&t1, &t2);
-    printf("GOT DIFF: %ld", seconds);
+    printf("GOT DIFF: %ld\n", seconds);
   }
 
     /* Check for reading errors */
