@@ -9,13 +9,13 @@ int days_per_month[] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
 int extract_time(int *arr, char *line){
   int i = 0;
   char *token = strtok(line, " "); /* Get the first token */
-  while (token != NULL && i < 10) {
+  while (token != NULL && i < 12) {
     arr[i] = atoi(token);
     token = strtok(NULL, " "); /* Get the next token */
     i++;
   }
 
-  if(i != 10){ /* If stopped reading mid iteration */
+  if(i != 12){ /* If stopped reading mid iteration */
     return 1;
   }
   return 0;
@@ -28,12 +28,12 @@ void build_time(int *arr ,time *t, int begin){
   t->date.year = *ptr++;
   t->hour.hour = *ptr++;
   t->hour.minute = *ptr++;
-  t->hour.second = 0;
+  t->hour.second = *ptr;
 }
 
 void print_time(time *t){
   printf("%d.%d.%d  ", t->date.day, t->date.month, t->date.year);
-  printf("%d:%d:%d\n", t->hour.hour, t->hour.minute, t->hour.second);
+  printf("%d:%d:%d", t->hour.hour, t->hour.minute, t->hour.second);
 }
 
 long time_diff(time *t1, time *t2) {
@@ -54,13 +54,12 @@ long time_diff(time *t1, time *t2) {
         seconds_soon = seconds_to_0000(t1);
     }
 
-    printf("SECONDS DIFF (Late - Soon): %ld\n", (seconds_late - seconds_soon));
+    /* printf("SECONDS DIFF (Late - Soon): %ld\n", (seconds_late - seconds_soon)); */
     total_seconds = (days_late - days_soon) * SECONDS_IN_DAY;
-    printf("DAYS DIFF (Late - Soon): %ld\n", (days_late - days_soon));
+    /* printf("DAYS DIFF (Late - Soon): %ld\n", (days_late - days_soon)); */
     total_seconds += (seconds_late - seconds_soon);
 
-    printf("TOTAL DIFF IN SECONDS: %ld\n", (days_late - days_soon) * SECONDS_IN_DAY + (seconds_late - seconds_soon));
-
+    /* printf("TOTAL DIFF IN SECONDS: %ld\n", (days_late - days_soon) * SECONDS_IN_DAY + (seconds_late - seconds_soon)); */
     return total_seconds;
 }
 
@@ -126,6 +125,7 @@ long seconds_to_0000(time *t){
 
 /*
   Given a time object calculate how many days passed from the date to 00/00/0000
+  Assuming no year 0000 exists and year -1 goes straight to 1
   Return the amount of days (int)
 */
 long days_to_0000(time *t) {
@@ -134,11 +134,11 @@ long days_to_0000(time *t) {
 
     if (t->date.year < 0){
         /* BC date */
-        /* Subtract (abs(year)) * DAYS_IN_YEAR */
-        total_days -= abs(t->date.year) * DAYS_IN_YEAR;
+        /* Subtract (abs(year) - 1) * DAYS_IN_YEAR */
+        total_days -= (abs(t->date.year) - 1) * DAYS_IN_YEAR;
 
-        /* Subtract days remaining in the current month after the given day */
-        total_days -= (days_per_month[t->date.month - 1] - t->date.day);
+        /* Subtract days remaining in the current month after the given day, inclusive */
+        total_days -= (days_per_month[t->date.month - 1] - t->date.day + 1);
 
         /* Subtract days for the months after the current month */
         for (month = t->date.month + 1; month <= 12; month++) {
