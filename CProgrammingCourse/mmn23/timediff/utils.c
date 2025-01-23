@@ -4,8 +4,15 @@
 #include <math.h>
 #include "timediff.h"
 
+/* Holds number of days for each month - each index represents each month */
 int days_per_month[] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
 
+/*
+  Given the string type line variable from the file and the array of return vleus,
+  extracts the numbers - dates and time in the format DD/MM/YYYY HH:MM:SS
+  return all extracted numbers - parts of the date and hour filled in the array
+  all 12 numbers extracted from the line are stored in the array
+*/
 int extract_time(int *arr, char *line){
   int i = 0;
   char *token = strtok(line, " "); /* Get the first token */
@@ -16,11 +23,19 @@ int extract_time(int *arr, char *line){
   }
 
   if(i != 12){ /* If stopped reading mid iteration */
+    if(i == 1){return 2;} /* If read the lines and encountred an empty line */
     return 1;
   }
   return 0;
 }
 
+/*
+  Given a pointer to a time type object, the array of tokanized numbers from the file
+  and the index from which the return values begin which are relevant to the current:
+  out of 12 numbers in the return array, only the 6 first or last represent the specific
+  time we put the values into
+
+*/
 void build_time(int *arr ,time *t, int begin){
   int *ptr = arr + begin;
   t->date.day = *ptr++;
@@ -31,11 +46,19 @@ void build_time(int *arr ,time *t, int begin){
   t->hour.second = *ptr;
 }
 
+/*
+  Given a pointer to a time type object prints its contents in a certain fromat:
+  DD.MM.YYYY  HH:MM:SS
+*/
 void print_time(time *t){
   printf("%d.%d.%d  ", t->date.day, t->date.month, t->date.year);
   printf("%d:%d:%d", t->hour.hour, t->hour.minute, t->hour.second);
 }
 
+/*
+  Given two pointers to a time type object
+  calculates and returnes the difference between the two dates in seconds
+*/
 long time_diff(time *t1, time *t2) {
     int sooner = compare_time(t1, t2);
     long days_late, days_soon;
@@ -124,7 +147,7 @@ long seconds_to_0000(time *t){
 
 
 /*
-  Given a time object calculate how many days passed from the date to 00/00/0000
+  Given a time object calculate how many days passed from the date to "00/00/0000":
   Assuming no year 0000 exists and year -1 goes straight to 1
   Return the amount of days (int)
 */

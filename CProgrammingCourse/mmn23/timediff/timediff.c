@@ -6,6 +6,56 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+
+/*******************************************************************************
+
+  * Program Name: MMN 23  - TIME DIFFERENCE
+
+  * Description:
+    This program reads lines from a given file, for each line of expected 12 numbers:
+    6 for each time: 3 for the date and 3 for the hour: DD.MM.YYYY HH:MM:SS
+    it extracts the numbers and builds two time objects and prints and calculates in
+    seconds the difference in seconds between the two times
+
+  * Variables and data structures:
+      1. time object defined in the header file: containes two objects: month and date
+      2. months object contains and representing in 3 numbers a date: DD.MM.YYYY
+      3. hours object contains and representing in 3 numbers an hour: HH:MM:SS
+      4. days per month: stores number of days in each month in an array, each
+      index holds the days of that month(minus 1 ==> 0 is jan...)
+
+    * Algorithm:
+      1. Validates command structures by scanning the passed additional arguments
+      2. Reads the file passed line by line
+      3. for each line containing 12 numbers representing two time objects:
+      4. extract the input and build the two time objects
+      5. calculate the difference between the two time objects in the time_diff function
+        - does so by finding out which time is sooner
+        - for each time calculates how many days passed from the date to the end of the epoch (00/00/0000)
+        - when its known there is no year 0 between years 1 and -1
+        - converts the days to an amount of seconds difference
+        - for each hour of a time calcualtes the seconds passed from 00:00
+        - adds the two results for each time, calculates the difference between the two results,
+         the later time minus the sooner
+         - returns the result
+      6. prints the result
+
+
+    * Input:
+      Commands in the format ./timediff <filename>
+      Format of the time in the file for each line: DD MM YY HH MM SS DD MM YY HH MM SS --> <time #1> <time #2>
+
+    * Output:
+      Prints the difference between the two dates in each line in seconds
+
+    * Notes:
+      Eample input tests can be found in the same directory as this program. See README.
+      Assumes input is valid and no need to check for validity inside file
+
+*******************************************************************************/
+
+
+
 int main(int argc, char *argv[]) {
   FILE *file;
   char line[MAX_LINE_LENGTH]; /* Buffer to hold each line */
@@ -31,33 +81,36 @@ int main(int argc, char *argv[]) {
     time t1, t2;
     input_error = extract_time(return_args, line);
 
-    if(input_error){break;}
+    if(!input_error){
 
-    build_time(return_args, &t1, 0);
-    build_time(return_args, &t2, 6);
+      build_time(return_args, &t1, 0);
+      build_time(return_args, &t2, 6);
 
 
-    seconds = time_diff(&t1, &t2);
-    printf("Calculated difference in seconds between: ");
+      seconds = time_diff(&t1, &t2);
 
-    if(compare_time(&t1,&t2)){ /* If t2 is sooner */
-      print_time(&t1);
-      printf(" and ");
-      print_time(&t2);
-    }else{
-      print_time(&t2);
-      printf("   and   ");
-      print_time(&t1);
+      /* Printing */
+      printf("Calculated difference in seconds between: ");
+
+      if(compare_time(&t1,&t2)){ /* If t2 is sooner */
+        print_time(&t1);
+        printf(" and ");
+        print_time(&t2);
+      }else{
+        print_time(&t2);
+        printf("   and   ");
+        print_time(&t1);
+      }
+      printf(" --> %ld seconds\n", seconds);
+    }else if(input_error != 2){ /* Error 2 is saved for times when an empty line is encountered */
+      printf("Error encountered %d\n", input_error);
     }
-    printf(" --> %ld seconds\n", seconds);
   }
 
     /* Check for reading errors */
   if (ferror(file)) {
       perror("Error reading file");
   }
-
-
 
   /* Close the file */
   fclose(file);
