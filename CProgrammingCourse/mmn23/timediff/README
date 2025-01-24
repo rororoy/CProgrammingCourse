@@ -1,0 +1,5 @@
+In this directory you'll find the main executable (timediff) and the test input file timediff.txt
+To run it:
+./timediff < ./timediff.txt
+Alternatively: ./timediff <file>
+>> Output example is stored in output.txt <<

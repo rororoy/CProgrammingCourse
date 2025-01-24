@@ -4,6 +4,16 @@
 #include <math.h>
 #include "timediff.h"
 
+/*******************************************************************************
+  TODO SOLVE CALULCATION PROBLEM OF THE LAST LINE
+
+  * Program Name: MMN 23  - utils
+
+  * Description:
+    A program with utility functions for the main timediff program
+
+*******************************************************************************/
+
 /* Holds number of days for each month - each index represents each month */
 int days_per_month[] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
 
@@ -38,9 +48,9 @@ int extract_time(int *arr, char *line){
 */
 void build_time(int *arr ,time *t, int begin){
   int *ptr = arr + begin;
-  t->date.day = *ptr++;
-  t->date.month = *ptr++;
   t->date.year = *ptr++;
+  t->date.month = *ptr++;
+  t->date.day = *ptr++;
   t->hour.hour = *ptr++;
   t->hour.minute = *ptr++;
   t->hour.second = *ptr;
@@ -77,12 +87,9 @@ long time_diff(time *t1, time *t2) {
         seconds_soon = seconds_to_0000(t1);
     }
 
-    /* printf("SECONDS DIFF (Late - Soon): %ld\n", (seconds_late - seconds_soon)); */
     total_seconds = (days_late - days_soon) * SECONDS_IN_DAY;
-    /* printf("DAYS DIFF (Late - Soon): %ld\n", (days_late - days_soon)); */
     total_seconds += (seconds_late - seconds_soon);
 
-    /* printf("TOTAL DIFF IN SECONDS: %ld\n", (days_late - days_soon) * SECONDS_IN_DAY + (seconds_late - seconds_soon)); */
     return total_seconds;
 }
 

@@ -11,6 +11,8 @@
 #define SECONDS_IN_HOUR 3600
 #define DAYS_IN_YEAR 365
 
+#define NUMBERS_PER_LINE 12 /* Define a constant of how many numbers are passed in each line */
+
 /* dates object representing a date inthe format DD.MM.YYYY */
 typedef struct{
   int day;

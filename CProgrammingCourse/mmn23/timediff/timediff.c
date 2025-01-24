@@ -8,6 +8,7 @@
 
 
 /*******************************************************************************
+  TODO SOLVE CALULCATION PROBLEM OF THE LAST LINE
 
   * Program Name: MMN 23  - TIME DIFFERENCE
 
@@ -74,22 +75,25 @@ int main(int argc, char *argv[]) {
     return 1;
   }
 
+  /* loop throguh each line of the file */
   while (fgets(line, sizeof(line), file) != NULL) {
-    int return_args[12];
+    int return_args[NUMBERS_PER_LINE];
     int input_error;
     long seconds;
     time t1, t2;
     input_error = extract_time(return_args, line);
 
-    if(!input_error){
-
+    if(!input_error){ /* if no error encountred */
+      /* build each time object using the array of tokanized numbers for each line */
+      /* in the array of 12 (=NUMBERS_PER_LINE) numbers,
+      the first hald represents the first number and the other the seconds one */
       build_time(return_args, &t1, 0);
-      build_time(return_args, &t2, 6);
+      build_time(return_args, &t2, NUMBERS_PER_LINE/2);
 
 
       seconds = time_diff(&t1, &t2);
 
-      /* Printing */
+      /* Printing based on what time is later - first print later then sooner */
       printf("Calculated difference in seconds between: ");
 
       if(compare_time(&t1,&t2)){ /* If t2 is sooner */
